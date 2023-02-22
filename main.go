@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -21,11 +22,27 @@ func main() {
 	if err != nil {
 		exit("Failed to parse the provided CSV file.")
 	}
-	fmt.Println(records)
+	problems := parseLines(records)
+	fmt.Println(problems)
 
 }
-
 func exit(msg string) {
 	fmt.Println(msg)
 	os.Exit(1)
+}
+
+type problem struct {
+	q string
+	a string
+}
+
+func parseLines(lines [][]string) []problem {
+	ret := make([]problem, len(lines))
+	for i, line := range lines {
+		ret[i] = problem{
+			q: line[0],
+			a: strings.TrimSpace(line[1]),
+		}
+	}
+	return ret
 }
